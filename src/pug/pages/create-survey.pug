@@ -1,0 +1,68 @@
+extends ../layouts/dashboard.pug
+
+block config
+    - var bodyClass = 'sb-nav-fixed'
+    - var pageTitle = 'Create Survey';
+    - var index = false;
+    - var sidenavStyle = 'sb-sidenav-dark'
+    
+prepend css
+    //- Load Simple DataTables Stylesheet
+    link(href='https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css', rel='stylesheet')
+
+block content
+    .container-fluid.px-4
+        include includes/page-header.pug
+
+        .card.mb-4
+            .card-header
+                i.fas.fa-table.me-1
+                | Customer Information
+            .card-body
+                include includes/customer-data.pug
+        .card
+
+        .form-floating.mb-3
+            textarea#inputSurvey.form-control(type='survey', placeholder='Survey', rows='3')
+            label(for='inputSurvey') Survey Question
+
+        a.btn.btn-primary(href='#' onclick='submitSurvey()') Send SMS
+        a.btn.btn-secondary(href='survey-list.html') Back to Survey List
+
+        //- .modal#surveyModal(tabindex='-1')
+        //-     .modal-dialog
+        //-         .modal-content
+        //-         .modal-header
+        //-             h5.modal-title Survey have been broadcasted
+        //-             button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+        //-         .modal-body
+        //-             p Reference number : #S20201202
+        //-         .modal-footer
+        //-             button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Close
+        //-             button.btn.btn-primary(type='button') Save changes
+
+
+        | <div class="modal fade" id="surveyModal" tabindex="-1" aria-labelledby="noteLabel" aria-hidden="true">
+        |   <div class="modal-dialog">
+        |     <div class="modal-content">
+        |       <div class="modal-header">
+        |         <h5 class="modal-title" id="noteLabel">Survey have been broadcasted</h5>
+        |         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        |       </div>
+        |       <div class="modal-body" id="message">
+        .modal-body
+            p Survey reference number : #S20201202
+        |       </div>
+        |       <div class="modal-footer">
+        |         <button type="button" class="btn btn-secondary" id="closeButton" data-bs-dismiss="modal">Close</button>
+        |       </div>
+        |     </div>
+        |   </div>
+        | </div>
+
+append scripts
+
+    //- Load Simple DataTables Scripts
+    script(src='https://cdn.jsdelivr.net/npm/simple-datatables@latest', crossorigin='anonymous')
+    script(src='js/datatables-simple-demo.js')
+    script(src='js/survey.js')

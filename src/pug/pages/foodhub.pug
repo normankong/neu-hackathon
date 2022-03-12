@@ -1,0 +1,69 @@
+extends ../layouts/dashboard.pug
+
+block config
+    - var bodyClass = 'sb-nav-fixed'
+    - var pageTitle = 'Food Hub';
+    - var index = true;
+    - var sidenavStyle = 'sb-sidenav-dark'
+    
+prepend css
+    //- Load Simple DataTables Stylesheet
+    link(href='https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css', rel='stylesheet')
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+
+block content
+    .container-fluid.px-4
+        include includes/page-header.pug
+        | <iframe loading="lazy" src="https://www.google.com/maps/d/u/0/embed?mid=1C7Fj50jHSHt-iSgjlsmj5B5ErLzwvUTR&amp;ll=50.97663977230089%2C-121.99965585884814&amp;z=6" width="640" height="480" data-gtm-yt-inspected-580403_27="true"></iframe>
+
+        .card.mb-4
+            .card-header
+                i.fas.fa-table.me-1
+                | Food Hub
+            .card-body
+                include includes/foodhub-data.pug
+
+        //- .card-footer.text-center.py-3
+        //-     a.btn.btn-primary(href='survey-list.html' onclick='alert("Order have been sent to backend. Survey # is 123453");') Send SMS
+
+        //- Form Submission
+        | <button id="floatingButton"  class="float" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#noteModal"><i class="fa fa-plus my-float fs-1"></i></button>
+        
+        | <div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteLabel" aria-hidden="true">
+        |   <div class="modal-dialog">
+        |     <div class="modal-content">
+        |       <div class="modal-header">
+        |         <h5 class="modal-title" id="noteLabel">New Suggestion</h5>
+        |         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        |       </div>
+        |       <div class="modal-body">
+        |         <form id="noteForm" novalidate>
+        |           <input type="hidden" id="refIdField"/>
+        |           <div class="mb-3">
+        |             <label for="Subject" class="col-form-label">Number of Food Hub:</label>
+        |             <input type="text" class="form-control" id="foodhub" placeholder="Please enter the number of new food hubs required" required pattern="\d.*" value="3"/>
+        |             <div class="invalid-feedback">
+        |               Invalid Number
+        |             </div>
+        |           </div>
+        |         </form>
+        |       </div>
+        |       <div class="modal-footer">
+        |         <button type="button" class="btn btn-secondary" id="closeButton" data-bs-dismiss="modal">Close</button>
+        |         <button type="button" class="btn btn-primary" id="submitButton" onClick="simulation()">Suggest</button>
+        |       </div>
+        |        <button id="loadingButton" class="btn btn-primary" type="button" disabled style="display:none">
+        |        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        |        Loading...
+        |        </button>
+        |     </div>
+        |   </div>
+        | </div>
+
+
+append scripts
+    | Load Simple DataTables Scripts
+    script(src='https://cdn.jsdelivr.net/npm/simple-datatables@latest', crossorigin='anonymous')
+    script(src='js/datatables-simple-demo.js')
+    script(src='js/foodhub-simulation.js')
+    

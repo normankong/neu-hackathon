@@ -1,0 +1,32 @@
+// 
+// Global
+// 
+
+html,
+body {
+    height: 100%;
+}
+
+
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:rgb(000, 128, 255);
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.877);
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.my-float{
+	margin-top:6px;
+}
+
+.gaugeBackground {
+	fill: #ddd;
+  }

@@ -1,0 +1,50 @@
+extends ../layouts/dashboard.pug
+
+block config
+    - var bodyClass = 'sb-nav-fixed'
+    - var pageTitle = 'Food Hub Suggestion Result';
+    - var index = true;
+    - var sidenavStyle = 'sb-sidenav-dark'
+    
+prepend css
+    //- Load Simple DataTables Stylesheet
+    link(href='https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css', rel='stylesheet')
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+
+block content
+    .container-fluid.px-4
+        include includes/page-header.pug
+
+        p
+           a.btn.btn-primary(data-bs-toggle="collapse", href="#paramDiv") Parameter Involved
+
+        div#paramDiv(class="collapse")
+            div(class="card card-body")
+                table#parameterTable(class="dataTable-table")
+                    thead
+                        tr
+                            <th style="width: 20%;">Key</th><th style="width: 79.8276%;">Value</th>
+                    tbody
+                        tr 
+                            td 1
+                            td Population
+                        tr 
+                            td 2
+                            td Number of people calling for food
+                        tr 
+                            td 3
+                            td Num of Lone Family with kids
+
+        .card.mb-4
+            .card-header
+                i.fas.fa-table.me-1
+                | Suggestion 
+            .card-body
+                include includes/foodhub-result.pug
+
+
+append scripts
+    | Load Simple DataTables Scripts
+    script(src='https://cdn.jsdelivr.net/npm/simple-datatables@latest', crossorigin='anonymous')
+    script(src='js/datatables-simple-demo.js')
+    
