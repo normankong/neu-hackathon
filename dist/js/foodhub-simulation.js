@@ -7,5 +7,5 @@ const simulation = () =>{
     submitButton.style.display = "none";
     loadingButton.style.display = "block";
 
-    setTimeout(()=>{window.location = "/foodhub-result.html"}, 4000);
+    setTimeout(()=>{window.location = "./foodhub-result.html"}, 4000);
 }
