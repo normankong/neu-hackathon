@@ -103,7 +103,7 @@
                             <textarea class="form-control" id="inputSurvey" type="survey" placeholder="Survey" rows="3"></textarea>
                             <label for="inputSurvey">Survey Question</label>
                         </div>
-                        <a class="btn btn-primary" href="#" onclick="submitSurvey()">Send SMS</a>
+                        <a class="btn btn-primary" href="#" id="sendButton">Send SMS</a>
                         <a class="btn btn-secondary" href="survey-list.html">Back to Survey List</a>
                         <div class="modal fade" id="surveyModal" tabindex="-1" aria-labelledby="noteLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -136,6 +136,6 @@
         <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js" defer></script>
         <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js" defer></script>
         <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js" defer></script>
-        <script src="js/survey.js" defer></script>
+        <script src="js/survey.js" defer type="module"></script>
     </body>
 </html>

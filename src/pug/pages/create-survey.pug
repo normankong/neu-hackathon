@@ -26,7 +26,7 @@ block content
             textarea#inputSurvey.form-control(type='survey', placeholder='Survey', rows='3')
             label(for='inputSurvey') Survey Question
 
-        a.btn.btn-primary(href='#' onclick='submitSurvey()') Send SMS
+        a.btn.btn-primary(href='#', id="sendButton") Send SMS
         a.btn.btn-secondary(href='survey-list.html') Back to Survey List
 
         //- .modal#surveyModal(tabindex='-1')
@@ -68,6 +68,6 @@ append scripts
     script(src='https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js' defer)
     script(src='https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js' defer)
     script(src='https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js' defer)
-    script(src='js/survey.js' defer type="module")
+    script(src='js/survey.js' , defer, type="module")
 
 

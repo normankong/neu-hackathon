@@ -10,11 +10,35 @@ const submitSurvey = () => {
         document.getElementById("surveyModal").modal.show();
     } else {
         document.getElementById("noteLabel").innerHTML = "Success";
-        document.getElementById("message").innerHTML =
-            "Survey have been broadcasted. Reference # #S20201202";
+        document.getElementById("message").innerHTML = "Survey have been broadcasted.";
         document.getElementById("surveyModal").modal.show();
 
-        // Trigger Server side
+        let table =  document.getElementById("datatablesSimple").table;
+        let now = new Date();
+        let end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 14);
+        let surveyId = "S" + now.toISOString().substring(0,11).replaceAll("-", "").replaceAll("T", "-") + "0" + Math.floor(Math.random() * 10000);
+      
+        let filtered = table.rows( {order:'index', search:'applied'}).dt.searchData;
+      
+        let rowCount = (filtered != null) ? filtered.length : table.rows().dt.data.length;
+
+        console.log(surveyId);
+        // Add a new document in collection "cities"
+        db.collection("/survey").doc().set({
+            surveyId : surveyId,
+            message : inputSurvey.value,
+            startDate: now.toISOString().substring(0,10),
+            endDate: end.toISOString().substring(0,10),
+            totalResponse : 0,
+            totalRequest : rowCount
+        })
+
+        .then(() => {
+            console.log("Document successfully written!");
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
     }
 };
 
@@ -33,7 +57,7 @@ firebase.initializeApp(firebaseConfig);
 let tbody = document.querySelector("#datatablesSimple > tbody");
 
 const db = firebase.firestore();
-const peopleRef = db.collection("/people");//.limit(100);
+const peopleRef = db.collection("/people").limit(100);
 peopleRef.get().then(function (querySnapshot) {
 
     let totalSize = querySnapshot.size;
@@ -43,7 +67,11 @@ peopleRef.get().then(function (querySnapshot) {
         if (++i == totalSize){
             const datatablesSimple = document.getElementById("datatablesSimple");
             if (datatablesSimple) {
-                new simpleDatatables.DataTable(datatablesSimple);
+                // debugger;
+                datatablesSimple.table = new simpleDatatables.DataTable(datatablesSimple);
+                // alert( table.rows('.selected').rows.length)
+                // $("#mytable").#("tr", { 'search': 'applied' }).each(...);
+                // table.rows( {order:'index', search:'applied'} ).nodes();
             }
         }
     });
@@ -53,6 +81,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
     // Register the Modal Dialog to bootstrap
     let surveyModal = document.getElementById("surveyModal");
     surveyModal.modal = new bootstrap.Modal(surveyModal);
+
+    document.getElementById("sendButton").addEventListener("click", submitSurvey);
 });
 
 const createTableRow = (tbody, element) => {

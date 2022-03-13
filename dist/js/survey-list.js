@@ -1,45 +1,49 @@
-// Pending
-
-// Get the Data from the Server
-let url = "https://run.mocky.io/v3/e2465573-a9b3-407f-aa9c-9842470eb658";
-// let url = "https://sheet.best/api/sheets/4e87d13d-b8bc-44c9-a677-58fb2dc77894";
-
-fetch(url)
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-
-        let tbody = document.querySelector("#datatablesSimple > tbody");
-        createTableRow(tbody, data);
-
-        const datatablesSimple = document.getElementById("datatablesSimple");
-        if (datatablesSimple) {
-            new simpleDatatables.DataTable(datatablesSimple);
-        }
-
-        tbody.onclick = (e) => {
-            console.log(e.srcElement.parentElement.firstChild.data);
-            showResult(e.srcElement.parentElement.firstChild.data);
-        }
-
-    })
-    .catch(function (err) {
-        console.log(err); // console.log("Booo");
-    });
-
-const createTableRow = (tbody, data) => {
-    data.forEach((element) => {
-        let newRow = tbody.insertRow(-1);
-        newRow.insertCell(0).innerHTML = element.SURVEY_ID;
-        newRow.insertCell(1).innerHTML = truncateString(element.QUESTION, 80);
-        newRow.insertCell(2).innerHTML = element.START_TIME;
-        newRow.insertCell(3).innerHTML = element.END_TIME;
-        newRow.insertCell(4).innerHTML = element.NO_REQUEST;
-        newRow.insertCell(5).innerHTML = element.TOTAL_RESPONSE;
-        newRow.insertCell(6).innerHTML = element.RATIO;
-    });
+var firebaseConfig = {
+    apiKey: "AIzaSyDe09eEQ4YF8D2zN2AzYTVqO0K5jvqu7F0",
+    authDomain: "hackathon-13ebe.firebaseapp.com",
+    projectId: "hackathon-13ebe",
+    storageBucket: "hackathon-13ebe.appspot.com",
+    messagingSenderId: "143879618034",
+    appId: "1:143879618034:web:b2836e56c65a6493243f6b",
+    measurementId: "G-FBVDHL2N0Y",
 };
+
+firebase.initializeApp(firebaseConfig);
+
+let tbody = document.querySelector("#datatablesSimple > tbody");
+
+const db = firebase.firestore();
+const ref = db.collection("/survey");//.limit(100);
+ref.get().then(function (querySnapshot) {
+
+    let totalSize = querySnapshot.size;
+    let i = 0;
+    querySnapshot.forEach(function (doc) {
+        createTableRow(tbody, doc.data());
+        if (++i == totalSize){
+            const datatablesSimple = document.getElementById("datatablesSimple");
+            if (datatablesSimple) {
+                new simpleDatatables.DataTable(datatablesSimple);
+            }
+        }
+    });
+});
+
+
+const createTableRow = (tbody, element) => {
+    let newRow = tbody.insertRow(-1);
+        newRow.insertCell(0).innerHTML = element.surveyId;
+        newRow.insertCell(1).innerHTML = truncateString(element.message, 80);
+        newRow.insertCell(2).innerHTML = element.startDate;
+        newRow.insertCell(3).innerHTML = element.endDate;
+        newRow.insertCell(4).innerHTML = element.totalResponse;
+        newRow.insertCell(5).innerHTML = element.totalRequest;
+        newRow.insertCell(6).innerHTML = calulatePercentage(element.totalResponse, element.totalRequest);
+};
+
+function  calulatePercentage(totalResponse, totalRequest){
+    return ((totalResponse/totalRequest)*100 ).toFixed(2) + "%"
+}
 
 function showResult () {
     let element = document.getElementById('chartArea');
