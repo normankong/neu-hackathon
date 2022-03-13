@@ -22,15 +22,17 @@ const submitSurvey = () => {
       
         let rowCount = (filtered != null) ? filtered.length : table.rows().dt.data.length;
 
-        console.log(surveyId);
-        // Add a new document in collection "cities"
+
+        // Insert record in survey
         db.collection("/survey").doc().set({
             surveyId : surveyId,
             message : inputSurvey.value,
             startDate: now.toISOString().substring(0,10),
             endDate: end.toISOString().substring(0,10),
-            totalResponse : 0,
-            totalRequest : rowCount
+            totalResponse : 348,
+            totalRequest : rowCount,
+            answer_list: ["1", "2","3","4","5"],
+            answer_count: [25, 100, 10, 13, 200],
         })
 
         .then(() => {
@@ -57,7 +59,7 @@ firebase.initializeApp(firebaseConfig);
 let tbody = document.querySelector("#datatablesSimple > tbody");
 
 const db = firebase.firestore();
-const peopleRef = db.collection("/people").limit(100);
+const peopleRef = db.collection("/people");//.limit(100);
 peopleRef.get().then(function (querySnapshot) {
 
     let totalSize = querySnapshot.size;
@@ -67,11 +69,7 @@ peopleRef.get().then(function (querySnapshot) {
         if (++i == totalSize){
             const datatablesSimple = document.getElementById("datatablesSimple");
             if (datatablesSimple) {
-                // debugger;
                 datatablesSimple.table = new simpleDatatables.DataTable(datatablesSimple);
-                // alert( table.rows('.selected').rows.length)
-                // $("#mytable").#("tr", { 'search': 'applied' }).each(...);
-                // table.rows( {order:'index', search:'applied'} ).nodes();
             }
         }
     });
@@ -89,10 +87,10 @@ const createTableRow = (tbody, element) => {
     let newRow = tbody.insertRow(-1);
     newRow.insertCell(0).innerHTML = element.firtname;
     newRow.insertCell(1).innerHTML = element.phone;
-    newRow.insertCell(2).innerHTML = "N/A";
-    newRow.insertCell(3).innerHTML = element.gender;
-    newRow.insertCell(4).innerHTML = element.address;
-    newRow.insertCell(5).innerHTML = element.city;
+    // newRow.insertCell(2).innerHTML = "N/A";
+    newRow.insertCell(2).innerHTML = element.gender;
+    newRow.insertCell(3).innerHTML = element.address;
+    newRow.insertCell(4).innerHTML = element.city;
 };
 
 // Calculate Age for given DOB
